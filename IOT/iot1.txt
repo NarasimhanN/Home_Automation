@@ -1,0 +1,122 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#define TRIGGER D7
+#define ECHO    D8
+
+WiFiClient client;
+ESP8266WebServer server;
+WiFiServer server2(80);
+const char* ssid = "Simha";
+const char* password = "9448234201";
+String command;
+void setup()
+{
+  Serial.begin(9600);
+
+  pinMode(A0, INPUT);
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
+  pinMode(D3, OUTPUT);
+  pinMode(D4, OUTPUT);
+  pinMode(D5,OUTPUT);
+  pinMode(D6, OUTPUT);
+  pinMode(D7, OUTPUT);
+  pinMode(ECHO, INPUT);
+  command = " ";
+
+  digitalWrite(D7, HIGH);
+  pinMode(D0, INPUT);
+  connectWiFi();
+  server.begin();
+  server.begin();
+  server.on("/b1", but1);
+  server.on("/b2", but2);
+  server.on("/b3", but3);
+  server.on("/b4", but4);
+  server.on("/b5", but5);
+  server.on("/b6", but6);
+
+  // server.on("/blink",b1);
+  server.on("/b7", but7);
+  server.on("/b8", but8);
+
+}
+void loop()
+{
+
+  server.handleClient();
+
+ 
+}
+/* connecting WiFi */
+void connectWiFi()
+{
+  Serial.println("\nConnecting to WIFI");
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  while ((!(WiFi.status() == WL_CONNECTED)))
+  {
+    delay(300);
+    Serial.print("..");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("NodeMCU Local IP is : ");
+  Serial.print((WiFi.localIP()));
+}
+void but1()
+{
+  digitalWrite(D1, HIGH);
+  server.send(200, "txt/html", "Dont click Off");
+}
+void but2()
+{
+  digitalWrite(D1, LOW);
+  server.send(200, "txt/html", "Why?..Just Why? ");
+
+}
+void but3()
+{
+  digitalWrite(D2, HIGH);
+  server.send(200, "txt/html", "Dont click Off");
+
+}
+
+
+
+void but4()
+{
+  digitalWrite(D2, LOW);
+  server.send(200, "txt/html", "Dont click Off");
+
+
+}
+void but5()
+{
+  digitalWrite(D3, HIGH);
+  server.send(200, "txt/html", "Dont click Off");
+
+}
+
+
+void but6()
+{
+  digitalWrite(D3, LOW);
+
+  server.send(200, "txt/html", "Why?..Just Why? ");
+
+}
+void but7()
+{
+  digitalWrite(D6, HIGH);
+  server.send(200, "txt/html", "Dont click Off");
+
+}
+
+
+void but8()
+{
+  digitalWrite(D6, LOW);
+
+  server.send(200, "txt/html", "Why?..Just Why? ");
+}

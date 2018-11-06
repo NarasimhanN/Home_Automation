@@ -1,0 +1,85 @@
+#define TRIGGER D7
+#define ECHO    D8
+
+void setup()
+{
+  Serial.begin(9600);
+
+  pinMode(D0, INPUT);
+  pinMode(A0, INPUT);
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
+  pinMode(D3, OUTPUT);
+  pinMode(D4, OUTPUT);
+  pinMode(D5,OUTPUT);
+  pinMode(D6, OUTPUT);
+  pinMode(D7, OUTPUT);
+  pinMode(ECHO, INPUT);
+   digitalWrite(D7, HIGH);
+
+
+ 
+
+ 
+}
+void loop()
+{
+
+  long duration, distance;
+  digitalWrite(TRIGGER, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(TRIGGER, HIGH);
+  delayMicroseconds(10);
+
+  digitalWrite(TRIGGER, LOW);
+  duration = pulseIn(ECHO, HIGH);
+  distance = (duration / 2) / 29.1;
+
+
+  int a = analogRead(A0);
+  if (a > 1000)
+  {
+    digitalWrite(D1, HIGH);
+    delay(1000);
+    digitalWrite(D6, HIGH);
+    delay(1000);
+    
+    
+  }
+  else
+  {
+    digitalWrite(D1, LOW);
+    delay(1000);
+    digitalWrite(D6, LOW);
+    delay(1000);
+    
+  }
+
+
+
+  Serial.println("Distance is: " + String(distance) + " Light : " + a );
+  delay(200);
+
+  if (distance <= 2)
+  {
+    digitalWrite(D4, HIGH);
+    delay(300);
+    digitalWrite(D4, LOW);
+    delay(300);
+    digitalWrite(D4, HIGH);
+    delay(300);
+    digitalWrite(D4, LOW);
+
+  }
+  else
+  {
+    digitalWrite(D4, LOW);
+    delayMicroseconds(1000);
+  }
+
+
+
+
+}
+
